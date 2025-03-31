@@ -19,7 +19,9 @@ from config import ASSET_PATH, get_logger, DefaultConfig
 from get_product_documents import get_product_documents
 from azure.ai.inference.prompts import PromptTemplate
 import json
+import io
 
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 # Initialize log file for messages (used later in the messages endpoint)
 LOG_FILE = os.environ.get("LOG_FILE", "seccess_log.jsonl")
 
@@ -64,7 +66,7 @@ def chat_with_products(messages: list, context: dict = None) -> dict:
         **grounded_chat_prompt.parameters,
     )
 
-    logger.info("💬 Response: %s", response.choices[0].message)
+    logger.info("Response: %s", response.choices[0].message)
     return response.choices[0].message
 
 

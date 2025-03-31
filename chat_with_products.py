@@ -6,6 +6,7 @@ from azure.identity import DefaultAzureCredential
 from config import ASSET_PATH, get_logger, enable_telemetry
 from get_product_documents import get_product_documents
 from azure.ai.inference.prompts import PromptTemplate
+import re
 
 
 # initialize logging and tracing objects
@@ -27,22 +28,29 @@ def chat_with_products(messages: list, context: dict = None) -> dict:
 
     documents = get_product_documents(messages, context)
 
-    # do a grounded chat call using the search results
     grounded_chat_prompt = PromptTemplate.from_prompty(Path(ASSET_PATH) / "grounded_chat.prompty")
-
     system_message = grounded_chat_prompt.create_messages(documents=documents, context=context)
+
     response = chat.complete(
         model=os.environ["CHAT_MODEL"],
         messages=system_message + messages,
         **grounded_chat_prompt.parameters,
-
-
     )
 
-    # logger.info(f"💬 Response: {response.choices[0].message}")
+    # Extract and sanitize the content
+    raw_message = response.choices[0].message
+    message_content = raw_message.content
 
-    # # Return a chat protocol compliant response
-    return {"message": response.choices[0].message, "context": str(context)}
+    # Option 1: Strip all non-ASCII (including emojis)
+    safe_content = re.sub(r'[^\x00-\x7F]+', '', message_content)
+
+    # Replace message content with sanitized version
+    raw_message.content = safe_content
+
+    # Log safely
+    logger.info("💬 Response: %s", safe_content)
+
+    return {"message": raw_message, "context": str(context)}
 
 if __name__ == "__main__":
     import argparse
