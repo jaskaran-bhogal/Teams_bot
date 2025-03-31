@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "azureBotId": {
+            "value": "jaskaranTeamsBotDrilling"
+        },
+        "azureBotSku": {
+            "value": "S1"
+        },
+        "azureBotRegion": {
+            "value": "global"
+        },
+        "botEndpoint": {
+            "value": "https://jaskaranTeamsbotBE.azurewebsites.net/api/messages"
+        },
+        "appType": {
+          "value": "UserAssignedMSI"
+        },
+        "appId": {
+            "value": "f2971375-794b-4e0d-8d9c-d3f0f1b74ffc"
+        },
+        "UMSIName": {
+            "value": "jaskaranBotIdentity"
+        },
+        "UMSIResourceGroupName": {
+            "value": "zcac-rg-dev-foundry"
+        },
+        "tenantId": {
+          "value": "f26327e3-d04d-4a8c-8251-9a766968e77a"
+        }
+    }
+}

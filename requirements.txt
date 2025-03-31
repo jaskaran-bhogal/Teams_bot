@@ -1,0 +1,12 @@
+azure-ai-projects
+azure-ai-inference[prompts]
+azure-identity
+azure-search-documents
+pandas
+python-dotenv
+opentelemetry-api
+azure.monitor.opentelemetry
+azure.ai.evaluation
+azure-ai-evaluation[remote]
+gunicorn
+botbuilder-integration-aiohttp>=4.14.0
